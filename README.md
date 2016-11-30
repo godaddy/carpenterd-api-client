@@ -1,6 +1,6 @@
 # carpenterd-api-client
 
-The `carpenterd-api-client` is an API client for the []`carpenterd`][carpenterd] build service.
+The `carpenterd-api-client` is an API client for the [`carpenterd`][carpenterd] build service.
 
 ## Install
 
