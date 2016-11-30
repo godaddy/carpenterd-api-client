@@ -1,0 +1,34 @@
+{
+  "name": "carpenterd-api-client",
+  "version": "1.3.0",
+  "description": "Node.js API client to interact with the carpenter build service.",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:warehouseai/carpenter-api-client.git"
+  },
+  "keywords": [
+    "carpenter",
+    "api",
+    "client"
+  ],
+  "author": "GoDaddy.com Operating Company, LLC",
+  "contributors": [
+    "Arnout Kazemier <akazemier@godaddy.com>",
+    "Martijn Swaagman <mswaagman@godaddy.com>",
+    "Charlie Robbins <crobbins@godaddy.com>",
+    "Jarrett Cruger <jcruger@godaddy.com>"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "hyperquest": "~2.1.1"
+  },
+  "devDependencies": {
+    "assume": "~1.4.1",
+    "mocha": "~2.3.2",
+    "nock": "~2.11.0"
+  }
+}
