@@ -1,12 +1,12 @@
-# carpenter-api-client
+# carpenterd-api-client
 
-The `carpenter-api-client` is an API client for the `carpenter` build service.
+The `carpenterd-api-client` is an API client for the []`carpenterd`][carpenterd] build service.
 
 ## Install
 
-Install `carpenter-api-client` from the npm registry:
+Install `carpenterd-api-client` from the npm registry:
 ```
-npm install --save carpenter-api-client
+npm install --save carpenterd-api-client
 ```
 
 ## API
@@ -17,7 +17,7 @@ followed:
 ```js
 'use strict';
 
-var Carpenter = require('carpenter-api-client');
+var Carpenter = require('carpenterd-api-client');
 
 var carpenter = new Carpenter('url-to-the-service');
 ```
@@ -74,3 +74,5 @@ npm test
 
 ## License
 MIT
+
+[carpenterd]: https://github.com/godaddy/carpenterd
