@@ -1,7 +1,7 @@
 'use strict';
 
 var request = require('hyperquest'),
-    url = require('url');
+  url = require('url');
 
 //
 // Methods that require an `application/json` header.
@@ -84,8 +84,8 @@ Carpenter.prototype.cancel = function cancel(options, next) {
  */
 Carpenter.prototype.send = function send(pathname, options, next) {
   var base = url.parse(this.base),
-      data = false,
-      req;
+    data = false,
+    req;
 
   if (typeof pathname === 'object') {
     options = pathname;

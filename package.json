@@ -4,6 +4,8 @@
   "description": "Node.js API client to interact with the carpenter build service.",
   "main": "index.js",
   "scripts": {
+    "eslint": "eslint-godaddy -c .eslintrc ./*.js",
+    "pretest": "npm run eslint",
     "test": "mocha test.js"
   },
   "repository": {
@@ -28,6 +30,10 @@
   },
   "devDependencies": {
     "assume": "~1.4.1",
+    "eslint": "^4.4.1",
+    "eslint-config-godaddy": "^2.0.0",
+    "eslint-plugin-json": "^1.2.0",
+    "eslint-plugin-mocha": "^4.11.0",
     "mocha": "~2.3.2",
     "nock": "~2.11.0"
   }
