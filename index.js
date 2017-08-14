@@ -12,8 +12,12 @@ var methods = ['POST', 'PUT'];
  * Carpenter API client.
  *
  * @constructor
- * @param {String} base The root URL of the carpenter service
- * @api public
+ * @param {Object|String} opts Options for root URL of carpenter service 
+ * @param {String} opts.url The root URL of the carpenter service
+ * @param {String} opts.uri The root URL of the carpenter service
+ * @param {String} opts.href The href for root URL of the carpenter service
+ * @param {String} opts.protocol Protocol for root URL of the carpenter service
+ * @public
  */
 function Carpenter(opts) {
   if (!this) new Carpenter(opts);
@@ -44,7 +48,8 @@ function Carpenter(opts) {
  *
  * @param {Object} options Configuration.
  * @param {Function} next Completion callback.
- * @api private
+ * @returns {[type]} [description]
+ * @private
  */
 Carpenter.prototype.build = function build(options, next) {
   options = options || {};
@@ -59,7 +64,8 @@ Carpenter.prototype.build = function build(options, next) {
  *
  * @param {Object} options Configuration.
  * @param {Function} next Completion callback.
- * @api private
+ * @returns {[type]} [description]
+ * @private
  */
 Carpenter.prototype.cancel = function cancel(options, next) {
   options = options || {};
@@ -79,7 +85,7 @@ Carpenter.prototype.cancel = function cancel(options, next) {
  * @param {String} pathname Pathname we need to hit.
  * @param {Object} options Hyperquest options
  * @param {Function} next Completion callback.
- * @returns {Hyperquest}
+ * @returns {Hyperquest} the request
  * @api private
  */
 Carpenter.prototype.send = function send(pathname, options, next) {

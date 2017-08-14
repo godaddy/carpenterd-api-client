@@ -4,9 +4,8 @@ describe('carpenter-api-client', function () {
   var assume = require('assume'),
     Carpenter = require('./'),
     nock = require('nock'),
-    url = require('url'),
-    carpenter,
-    uri;
+    url = require('url');
+  var carpenter, uri;
 
   beforeEach(function each() {
     uri = 'http://localhost:8999/';
