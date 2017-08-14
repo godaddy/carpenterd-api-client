@@ -49,7 +49,7 @@ function Carpenter(opts) {
  *
  * @param {Object} options Configuration.
  * @param {Function} next Completion callback.
- * @returns {[type]} [description]
+ * @returns {Stream} the request
  * @private
  */
 Carpenter.prototype.build = function build(options, next) {
@@ -65,7 +65,7 @@ Carpenter.prototype.build = function build(options, next) {
  *
  * @param {Object} options Configuration.
  * @param {Function} next Completion callback.
- * @returns {[type]} [description]
+ * @returns {Stream} the request
  * @private
  */
 Carpenter.prototype.cancel = function cancel(options, next) {
@@ -86,7 +86,7 @@ Carpenter.prototype.cancel = function cancel(options, next) {
  * @param {String} pathname Pathname we need to hit.
  * @param {Object} options Hyperquest options
  * @param {Function} next Completion callback.
- * @returns {Hyperquest} the request
+ * @returns {Stream} the request
  * @api private
  */
 Carpenter.prototype.send = function send(pathname, options, next) {
