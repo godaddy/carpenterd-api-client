@@ -20,6 +20,7 @@ var methods = ['POST', 'PUT'];
  * @public
  */
 function Carpenter(opts) {
+  // eslint-disable-next-line no-new
   if (!this) new Carpenter(opts);
 
   if (typeof opts === 'string') {
