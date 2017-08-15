@@ -1,12 +1,11 @@
 describe('carpenter-api-client', function () {
   'use strict';
 
-  var assume = require('assume')
-    , Carpenter = require('./')
-    , nock = require('nock')
-    , url = require('url')
-    , carpenter
-    , uri;
+  var assume = require('assume'),
+    Carpenter = require('./'),
+    nock = require('nock'),
+    url = require('url');
+  var carpenter, uri;
 
   beforeEach(function each() {
     uri = 'http://localhost:8999/';
@@ -65,16 +64,16 @@ describe('carpenter-api-client', function () {
       next = assume.wait(2, next);
 
       nock(uri)
-      .post('/build')
-      .reply(200, function reply(uri, body) {
-        body = JSON.parse(body);
+        .post('/build')
+        .reply(200, function reply(uri, body) {
+          body = JSON.parse(body);
 
-        assume(body.name).equals('foo-bar');
-        nock.cleanAll();
-        next();
+          assume(body.name).equals('foo-bar');
+          nock.cleanAll();
+          next();
 
-        return {};
-      });
+          return {};
+        });
 
       carpenter.build(options, next);
     });
@@ -83,16 +82,16 @@ describe('carpenter-api-client', function () {
       next = assume.wait(2, next);
 
       nock(uri)
-      .post('/build')
-      .reply(200, function reply(uri, body) {
-        body = JSON.parse(body);
+        .post('/build')
+        .reply(200, function reply(uri, body) {
+          body = JSON.parse(body);
 
-        assume(body.name).equals('foo-bar');
-        nock.cleanAll();
-        next();
+          assume(body.name).equals('foo-bar');
+          nock.cleanAll();
+          next();
 
-        return {};
-      });
+          return {};
+        });
 
       carpenter.build({
         data: JSON.stringify(options.data)
@@ -111,15 +110,15 @@ describe('carpenter-api-client', function () {
       next = assume.wait(2, next);
 
       nock(uri)
-      .get('/cancel/foo-bar/1.0.0/prod')
-      .reply(200, function reply(uri, body) {
-        assume(uri).equals('/cancel/foo-bar/1.0.0/prod');
-        assume(body).to.be.falsey();
-        nock.cleanAll();
-        next();
+        .get('/cancel/foo-bar/1.0.0/prod')
+        .reply(200, function reply(uri, body) {
+          assume(uri).equals('/cancel/foo-bar/1.0.0/prod');
+          assume(body).to.be.falsey();
+          nock.cleanAll();
+          next();
 
-        return {};
-      });
+          return {};
+        });
 
       carpenter.cancel(options, next);
     });
@@ -130,15 +129,15 @@ describe('carpenter-api-client', function () {
       delete options.env;
 
       nock(uri)
-      .get('/cancel/foo-bar/1.0.0')
-      .reply(200, function reply(uri, body) {
-        assume(uri).equals('/cancel/foo-bar/1.0.0');
-        assume(body).to.be.falsey();
-        nock.cleanAll();
-        next();
+        .get('/cancel/foo-bar/1.0.0')
+        .reply(200, function reply(uri, body) {
+          assume(uri).equals('/cancel/foo-bar/1.0.0');
+          assume(body).to.be.falsey();
+          nock.cleanAll();
+          next();
 
-        return {};
-      });
+          return {};
+        });
 
       carpenter.cancel(options, next);
     });
