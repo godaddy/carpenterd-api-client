@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:warehouseai/carpenter-api-client.git"
+    "url": "git@github.com:warehouseai/carpenterd-api-client.git"
   },
   "keywords": [
     "carpenter",
