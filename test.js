@@ -53,22 +53,35 @@ describe('carpenter-api-client', function () {
     assume(carpenter.agent);
   });
 
+  it('can be configured with an api version', function () {
+    [1, '1', 'v1'].forEach(function (version) {
+      carpenter = new Carpenter({ uri, version });
+
+      assume(carpenter.version).equals('');
+    });
+  });
+
+  it('defaults to the v2 api', function () {
+    assume(new Carpenter({ uri }).version).equals('v2');
+    assume(new Carpenter({ uri, version: 'not one' }).version).equals('v2');
+  });
+
   describe('#build', function () {
     var options = {
       data: {
-        name: 'foo-bar'
+        data: { name: 'foo-bar' },
+        promote: true
       }
     };
 
-    it('sends a request to /build', function (next) {
+    it('sends a request to /v2/build', function (next) {
       next = assume.wait(2, next);
 
       nock(uri)
-        .post('/build')
+        .post('/v2/build')
         .reply(200, function reply(uri, body) {
-          body = JSON.parse(body);
-
-          assume(body.name).equals('foo-bar');
+          assume(body.data.name).equals('foo-bar');
+          assume(body.promote).equals(true);
           nock.cleanAll();
           next();
 
@@ -82,11 +95,10 @@ describe('carpenter-api-client', function () {
       next = assume.wait(2, next);
 
       nock(uri)
-        .post('/build')
+        .post('/v2/build')
         .reply(200, function reply(uri, body) {
-          body = JSON.parse(body);
-
-          assume(body.name).equals('foo-bar');
+          assume(body.data.name).equals('foo-bar');
+          assume(body.promote).equals(true);
           nock.cleanAll();
           next();
 
@@ -95,6 +107,29 @@ describe('carpenter-api-client', function () {
 
       carpenter.build({
         data: JSON.stringify(options.data)
+      }, next);
+    });
+
+    it('sends a request to /build when using v1 API', function (next) {
+      carpenter = new Carpenter({
+        uri,
+        version: 'v1'
+      });
+
+      next = assume.wait(2, next);
+
+      nock(uri)
+        .post('/build')
+        .reply(200, function reply(uri, body) {
+          assume(body.name).equals('foo-bar');
+          nock.cleanAll();
+          next();
+
+          return {};
+        });
+
+      carpenter.build({
+        data: { name: 'foo-bar' }
       }, next);
     });
   });
