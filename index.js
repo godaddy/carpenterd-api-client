@@ -12,11 +12,12 @@ var methods = ['POST', 'PUT'];
  * Carpenter API client.
  *
  * @constructor
- * @param {Object|String} opts Options for root URL of carpenter service 
+ * @param {Object|String} opts Options for root URL of carpenter service
  * @param {String} opts.url The root URL of the carpenter service
  * @param {String} opts.uri The root URL of the carpenter service
  * @param {String} opts.href The href for root URL of the carpenter service
  * @param {String} opts.protocol Protocol for root URL of the carpenter service
+ * @param {String} opts.version The carpenter build API version to use (defaults to v2)
  * @public
  */
 function Carpenter(opts) {
@@ -32,6 +33,8 @@ function Carpenter(opts) {
   } else {
     throw new Error('Carpenter URL required');
   }
+
+  this.version = (opts.version === '1' || opts.version === 'v1' || opts.version === 1) ? '' : 'v2';
 
   //
   // Handle all possible cases
@@ -56,7 +59,10 @@ Carpenter.prototype.build = function build(options, next) {
   options = options || {};
   options.method = options.method || 'POST';
 
-  return this.send('build', options, next);
+  return this.send([
+    this.version,
+    'build'
+  ].filter(Boolean).join('/'), options, next);
 };
 
 /**
