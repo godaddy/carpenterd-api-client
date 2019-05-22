@@ -3,7 +3,6 @@
 [![Version npm](https://img.shields.io/npm/v/carpenterd-api-client.svg?style=flat-square)](https://www.npmjs.com/package/carpenterd-api-client)
 [![License](https://img.shields.io/npm/l/carpenterd-api-client.svg?style=flat-square)](https://github.com/warehouseai/carpenterd-api-client/blob/master/LICENSE)
 [![npm Downloads](https://img.shields.io/npm/dm/carpenterd-api-client.svg?style=flat-square)](https://npmcharts.com/compare/carpenterd-api-client?minimal=true)
-[![Build Status](https://travis-ci.org/warehouseai/carpenterd-api-client.svg?branch=master)](https://travis-ci.org/warehouseai/carpenterd-api-client)
 [![Dependencies](https://img.shields.io/david/warehouseai/carpenterd-api-client.svg?style=flat-square)](https://github.com/warehouseai/carpenterd-api-client/blob/master/package.json)
 
 The `carpenterd-api-client` is an API client for the [`carpenterd`][carpenterd]
