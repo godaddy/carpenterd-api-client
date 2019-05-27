@@ -1,6 +1,12 @@
-# carpenterd-api-client
+# `carpenterd-api-client`
 
-The `carpenterd-api-client` is an API client for the [`carpenterd`][carpenterd] build service.
+[![Version npm](https://img.shields.io/npm/v/carpenterd-api-client.svg?style=flat-square)](https://www.npmjs.com/package/carpenterd-api-client)
+[![License](https://img.shields.io/npm/l/carpenterd-api-client.svg?style=flat-square)](https://github.com/warehouseai/carpenterd-api-client/blob/master/LICENSE)
+[![npm Downloads](https://img.shields.io/npm/dm/carpenterd-api-client.svg?style=flat-square)](https://npmcharts.com/compare/carpenterd-api-client?minimal=true)
+[![Dependencies](https://img.shields.io/david/warehouseai/carpenterd-api-client.svg?style=flat-square)](https://github.com/warehouseai/carpenterd-api-client/blob/master/package.json)
+
+The `carpenterd-api-client` is an API client for the [`carpenterd`][carpenterd]
+build service.
 
 ## Install
 
@@ -9,7 +15,7 @@ Install `carpenterd-api-client` from the npm registry:
 npm install --save carpenterd-api-client
 ```
 
-## API
+## Usage
 
 In all examples we assume that you've already initialized the client as
 followed:
@@ -17,15 +23,17 @@ followed:
 ```js
 'use strict';
 
-var Carpenter = require('carpenterd-api-client');
+const Carpenter = require('carpenterd-api-client');
 
-var carpenter = new Carpenter('url-to-the-service');
+const carpenter = new Carpenter('url-to-the-service');
 ```
 
 As you can see in the example above, the `Carpenter` constructor requires one
 argument:
 
 - The URL of the carpenter API where we should send the requests to.
+
+## API
 
 ### build
 
@@ -65,14 +73,10 @@ carpenter.cancel({
 });
 ```
 
-
 ## Tests
 
 ```sh
 npm test
 ```
-
-## License
-MIT
 
 [carpenterd]: https://github.com/godaddy/carpenterd
