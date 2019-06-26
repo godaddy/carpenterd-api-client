@@ -1,7 +1,8 @@
 'use strict';
 
-var request = require('hyperquest'),
-  url = require('url');
+var request = require('hyperquest');
+var url = require('url');
+var Retryme = require('retryme');
 
 //
 // Methods that require an `application/json` header.
@@ -45,6 +46,7 @@ function Carpenter(opts) {
 
   this.timeout = opts.timeout || 0;
   this.agent = opts.agent;
+  this.retryOpts = opts.retry || { retries: 5, min: 500, max: 10000 };
 }
 
 /**
@@ -91,11 +93,11 @@ Carpenter.prototype.cancel = function cancel(options, next) {
  *
  * @param {String} pathname Pathname we need to hit.
  * @param {Object} options Hyperquest options
- * @param {Function} next Completion callback.
+ * @param {Function} done Completion callback.
  * @returns {Stream} the request
  * @api private
  */
-Carpenter.prototype.send = function send(pathname, options, next) {
+Carpenter.prototype.send = function send(pathname, options, done) {
   var base = url.parse(this.base),
     data = false,
     req;
@@ -106,7 +108,7 @@ Carpenter.prototype.send = function send(pathname, options, next) {
   }
 
   if (typeof options === 'function') {
-    next = options;
+    done = options;
     options = {};
   }
 
@@ -125,22 +127,27 @@ Carpenter.prototype.send = function send(pathname, options, next) {
     options.headers['Content-Type'] = 'application/json';
   }
 
-  //
-  // Setup hyperquest to formatted URL.
-  //
-  req = request(url.format(base), options, next);
+  var operation = new Retryme(this.retryOpts);
 
-  //
-  // Write JSON data to the request if provided. Yhis is only required for
-  // POST and PUT as hyperquest by default ends GET, DELETE and HEAD requests.
-  //
-  try {
-    if (~methods.indexOf(options.method)) {
-      req.end(typeof data === 'object' ? JSON.stringify(data) : data);
+  operation.attempt(next => {
+    //
+    // Setup hyperquest to formatted URL with retries.
+    //
+    req = request(url.format(base), options, next);
+
+    //
+    // Write JSON data to the request if provided. This is only required for
+    // POST and PUT as hyperquest by default ends GET, DELETE and HEAD requests.
+    //
+    try {
+      if (~methods.indexOf(options.method)) {
+        req.end(typeof data === 'object' ? JSON.stringify(data) : data);
+      }
+    } catch (error) {
+      return next(error);
     }
-  } catch (error) {
-    return next(error);
-  }
+  }, done);
+
 
   return req;
 };
