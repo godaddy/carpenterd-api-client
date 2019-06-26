@@ -1,10 +1,10 @@
-describe('carpenter-api-client', function () {
-  'use strict';
+var assume = require('assume');
+var nock = require('nock');
+var url = require('url');
+var Carpenter = require('./');
 
-  var assume = require('assume'),
-    Carpenter = require('./'),
-    nock = require('nock'),
-    url = require('url');
+describe('carpenter-api-client', function () {
+  this.timeout(5e4);
   var carpenter, uri;
 
   beforeEach(function each() {
@@ -41,6 +41,20 @@ describe('carpenter-api-client', function () {
     });
 
     assume(carpenter).to.have.property('timeout', 120000);
+  });
+
+  it('can be configured with retry and defaults to { retries: 5, min: 500, max: 10000 }', function () {
+    assume(carpenter.retryOpts).eqls({ retries: 5, min: 500, max: 10000 });
+    carpenter = new Carpenter({
+      url: uri,
+      retry: {
+        retries: 3,
+        min: 100,
+        max: 500
+      }
+    });
+
+    assume(carpenter.retryOpts).eqls({ retries: 3, min: 100, max: 500 });
   });
 
   it('can be configured with an agent and url object', function () {
@@ -89,6 +103,37 @@ describe('carpenter-api-client', function () {
         });
 
       carpenter.build(options, next);
+    });
+
+    it('sends a request to /v2/build with retries and fails after retries', next => {
+      carpenter = new Carpenter({
+        url: uri,
+        retry: {
+          retries: 3,
+          min: 100,
+          max: 500
+        }
+      });
+      nock(uri, {
+        badheaders: ['whatever']
+      })
+        .post('/v2/build')
+        .reply(200);
+
+      carpenter.build(Object.assign({}, options, {
+        headers: {
+          whatever: 'idontcare'
+        }
+      }), err => {
+        assume(err.statusCode).equals(404);
+        assume(err.message).includes('Nock: No match for request');
+        // Verify it retries
+        assume(err['attempt#0']).is.truthy();
+        assume(err['attempt#2']).is.truthy();
+
+        nock.cleanAll();
+        next();
+      });
     });
 
     it('can also send stringified data', function (next) {
@@ -156,6 +201,37 @@ describe('carpenter-api-client', function () {
         });
 
       carpenter.cancel(options, next);
+    });
+
+    it('sends a request to /cancel with retries and fails after retries', next => {
+      carpenter = new Carpenter({
+        url: uri,
+        retry: {
+          retries: 3,
+          min: 100,
+          max: 500
+        }
+      });
+      nock(uri, {
+        badheaders: ['whatever']
+      })
+        .post('/cancel/foo-bar/1.0.0/prod')
+        .reply(200);
+
+      carpenter.build(Object.assign({}, options, {
+        headers: {
+          whatever: 'idontcare'
+        }
+      }), err => {
+        assume(err.statusCode).equals(404);
+        assume(err.message).includes('Nock: No match for request');
+        // Verify it retries
+        assume(err['attempt#0']).is.truthy();
+        assume(err['attempt#2']).is.truthy();
+
+        nock.cleanAll();
+        next();
+      });
     });
 
     it('has optional env parameter', function (next) {
